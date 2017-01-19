@@ -59,27 +59,8 @@ if __name__ == "__main__":
     ##### Setup tkinter #####
 
     def publish(cmd):
+        label["text"] = cmd
         result, mid = mqtt_conn.client.publish(COMMAND, payload=cmd.encode('utf-8'))
-
-
-    def on_left_arrow_pressed(event):
-        label["text"] = LEFT
-        publish(LEFT)
-
-
-    def on_right_arrow_pressed(event):
-        label["text"] = RIGHT
-        publish(RIGHT)
-
-
-    def on_up_arrow_pressed(event):
-        label["text"] = FORWARD
-        publish(FORWARD)
-
-
-    def on_down_arrow_pressed(event):
-        label["text"] = BACKWARD
-        publish(BACKWARD)
 
 
     def on_key(event):
@@ -91,25 +72,21 @@ if __name__ == "__main__":
 
     def on_mouseclick(event):
         root.focus_set()
-        label["text"] = "Clicked at {0},{1}".format(event.x, event.y)
+        if event.y >= 0:
+            label["text"] = "Clicked at {0},{1}".format(event.x, event.y)
 
 
     root = tk.Tk()
     # For bind() details, see: http://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
     root.bind("<Button-1>", on_mouseclick)
     root.bind("<Key>", on_key)
-    root.bind('<Left>', on_left_arrow_pressed)
-    root.bind('<Right>', on_right_arrow_pressed)
-    root.bind('<Up>', on_up_arrow_pressed)
-    root.bind('<Down>', on_down_arrow_pressed)
+    root.bind('<Left>', lambda event: publish(LEFT))
+    root.bind('<Right>', lambda event: publish(RIGHT))
+    root.bind('<Up>', lambda event: publish(FORWARD))
+    root.bind('<Down>', lambda event: publish(BACKWARD))
 
     canvas = tk.Canvas(root, bg="white", width=200, height=150)
-    label = tk.Label(canvas,
-                     text='',
-                     bg='red',
-                     font=('courier', 20, 'bold'),
-                     height=5,
-                     width=20)
+    label = tk.Label(canvas, text='', bg='red', font=('courier', 20, 'bold'), height=5, width=20)
     label.pack(expand=tk.YES, fill=tk.BOTH)
     canvas.pack()
 
