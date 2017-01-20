@@ -27,7 +27,7 @@ if __name__ == "__main__":
     # Setup logging
     logging.basicConfig(stream=sys.stderr, level=logging.INFO, format=FORMAT_DEFAULT)
 
-    direction = "STOP"
+    direction = STOP
     speed = 1
 
     # Setup MQTT
