@@ -22,10 +22,10 @@ $ ./keyboard_controller.py
 
 | Keystroke   | Action                                             |
 |:-----------:|----------------------------------------------------|
-| up-arrow    | Move robot forward                                 |
-| down-arrow  | Move robot backward                                |
-| left-arrow  | Move robot left                                    |
-| right-arrow | Move robot right                                   |
+| Up-Arrow    | Move robot forward                                 |
+| Down-Arrow  | Move robot backward                                |
+| Left-Arrow  | Move robot left                                    |
+| Right-Arrow | Move robot right                                   |
 | +           | Increase speed 1 unit                              |
 | -           | Decrease speed 1 unit                              |
 | space       | Sets speed to 0                                    |
