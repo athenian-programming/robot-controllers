@@ -18,6 +18,19 @@ $ ./keyboard_controller.py
 | -h, --help     | Summary of options                                 |         |
 
 
+### Keystrokes
+
+| Keystroke   | Action                                             |
+|:-----------:|----------------------------------------------------|
+| up-arrow    | Move robot forward                                 |
+| down-arrow  | Move robot backward                                |
+| left-arrow  | Move robot left                                    |
+| right-arrow | Move robot right                                   |
+| +           | Increase speed 1 unit                              |
+| -           | Decrease speed 1 unit                              |
+| space       | Sets speed to 0                                    |
+| q           | Quit                                               |
+
 ## Broker Listener
 
 broker_listener.py is used to view all messages publised to broker. 

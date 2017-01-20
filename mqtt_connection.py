@@ -6,7 +6,7 @@ from threading import Thread
 import paho.mqtt.client as paho
 
 
-class MqttConnection:
+class MqttConnection(object):
     def __init__(self, hostname, port):
         self.__hostname = hostname
         self.__port = port
