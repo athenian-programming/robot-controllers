@@ -29,13 +29,8 @@ if __name__ == "__main__":
     # Setup logging
     logging.basicConfig(stream=sys.stderr, level=logging.INFO, format=FORMAT_DEFAULT)
 
-    ##### Setup MQTT #####
 
-    # Create MQTT connection
-    mqtt_conn = MqttConnection(*mqtt_broker_info(args["mqtt"]))
-
-
-    # Setup MQTT callbacks
+    # Setup MQTT
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code: {0}".format(rc))
 
@@ -48,16 +43,15 @@ if __name__ == "__main__":
         print("Published value to {0} with message id {1}".format(COMMAND, mid))
 
 
+    # Create MQTT connection
+    mqtt_conn = MqttConnection(*mqtt_broker_info(args["mqtt"]))
     mqtt_conn.client.on_connect = on_connect
     mqtt_conn.client.on_disconnect = on_disconnect
     mqtt_conn.client.on_publish = on_publish
-
-    # This will not block
     mqtt_conn.connect()
 
 
-    ##### Setup tkinter #####
-
+    # Setup tkinter
     def publish(cmd):
         label["text"] = cmd
         result, mid = mqtt_conn.client.publish(COMMAND, payload=cmd.encode('utf-8'))
@@ -67,6 +61,7 @@ if __name__ == "__main__":
         key_clicked = repr(event.char)
         label["text"] = "Pressed {0}".format(key_clicked)
         if key_clicked == "'q'":
+            mqtt_conn.disconnect()
             sys.exit()
 
 

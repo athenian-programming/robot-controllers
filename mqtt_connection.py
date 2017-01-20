@@ -1,6 +1,6 @@
 import logging
 import socket
-import sys
+import time
 from threading import Thread
 
 import paho.mqtt.client as paho
@@ -10,8 +10,8 @@ class MqttConnection:
     def __init__(self, hostname, port):
         self.__hostname = hostname
         self.__port = port
-        self.__connected = False
-        self.__client = paho.Client()
+        self.__retry = True
+        self.__client = paho.Client(userdata={"hostname": hostname, "port": port})
 
     @property
     def client(self):
@@ -19,14 +19,20 @@ class MqttConnection:
 
     def connect(self):
         def connect_to_mqtt():
-            try:
-                # Connect to MQTT broker
-                logging.info("Connecting to MQTT broker at {0}:{1}...".format(self.__hostname, self.__port))
-                self.__client.connect(self.__hostname, port=self.__port, keepalive=60)
-                self.__client.loop_forever()
-            except socket.error:
-                logging.error("Cannot connect to MQTT broker at: {0}:{1}".format(self.__hostname, self.__port))
-                sys.exit()
+            while self.__retry:
+                try:
+                    logging.info("Connecting to MQTT broker {0}:{1}...".format(self.__hostname, self.__port))
+                    self.__client.connect(self.__hostname, port=self.__port, keepalive=60)
+                    self.__client.loop_forever()
+                except socket.error:
+                    logging.error("Cannot connect to MQTT broker {0}:{1}".format(self.__hostname, self.__port))
+                    time.sleep(1)
+                except BaseException as e:
+                    logging.error("Cannot connect to MQTT broker {0}:{1} [e]".format(self.__hostname, self.__port, e))
+                    time.sleep(1)
 
-        # Run connection in a thread
         Thread(target=connect_to_mqtt, args=()).start()
+
+    def disconnect(self):
+        self.__retry = False
+        self.__client.disconnect()
