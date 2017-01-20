@@ -55,6 +55,7 @@ if __name__ == "__main__":
     # Setup tkinter
     def publish(cmd):
         label["text"] = cmd
+        # Encode payload into json object
         json_val = json.dumps({"command": cmd, "speed": 10, "time": 5})
         result, mid = mqtt_conn.client.publish(COMMAND, payload=json_val.encode('utf-8'))
 
