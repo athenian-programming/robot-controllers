@@ -15,7 +15,7 @@ if is_python3():
 else:
     import Tkinter as tk
 
-COMMAND = "/roborio/keyboard/command"
+TOPIC = "/roborio/keyboard/command"
 STOP = "STOP"
 
 if __name__ == "__main__":
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
 
     def on_publish(client, userdata, mid):
-        print("Published value to {0} with message id {1}".format(COMMAND, mid))
+        print("Published value to {0} with message id {1}".format(TOPIC, mid))
 
 
     # Create MQTT connection
@@ -62,7 +62,7 @@ if __name__ == "__main__":
         update_display(direction, speed)
         # Encode payload into json object
         json_val = json.dumps({"command": direction, "speed": speed})
-        result, mid = mqtt_conn.client.publish(COMMAND, payload=json_val.encode('utf-8'))
+        result, mid = mqtt_conn.client.publish(TOPIC, payload=json_val.encode('utf-8'))
 
 
     def set_direction(cmd):
