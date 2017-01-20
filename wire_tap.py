@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import logging
 import sys
 import time
@@ -26,7 +27,8 @@ def on_subscribe(client, userdata, mid, granted_qos):
 
 
 def on_message(client, userdata, msg):
-    print("{0} : {1}".format(msg.topic, bytes.decode(msg.payload)))
+    json_val = json.loads(bytes.decode(msg.payload))
+    print("{0} : {1}".format(msg.topic, json_val))
 
 
 if __name__ == "__main__":
