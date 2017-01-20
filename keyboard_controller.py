@@ -27,9 +27,6 @@ if __name__ == "__main__":
     # Setup logging
     logging.basicConfig(stream=sys.stderr, level=logging.INFO, format=FORMAT_DEFAULT)
 
-    direction = STOP
-    speed = 1
-
     # Setup MQTT
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code: {0}".format(rc))
@@ -56,7 +53,7 @@ if __name__ == "__main__":
         speed_label["text"] = "Speed: {0}".format(speed)
 
 
-    def publish():
+    def publish_value():
         global direction
         global speed
         update_display(direction, speed)
@@ -68,7 +65,7 @@ if __name__ == "__main__":
     def set_direction(cmd):
         global direction
         direction = cmd
-        publish()
+        publish_value()
 
     def on_key(event):
         global direction
@@ -77,15 +74,15 @@ if __name__ == "__main__":
         if key_clicked == "+" or key_clicked == "=":
             if speed < 10:
                 speed += 1
-                publish()
+                publish_value()
         elif key_clicked == "-" or key_clicked == "_":
             if speed > 0:
                 speed -= 1
-                publish()
+                publish_value()
         elif key_clicked == " ":
             direction = STOP
             speed = 0
-            publish()
+            publish_value()
         elif key_clicked == "q":
             mqtt_conn.disconnect()
             sys.exit()
@@ -95,6 +92,10 @@ if __name__ == "__main__":
     def on_mouseclick(event):
         root.focus_set()
         print("Clicked at {0},{1}".format(event.x, event.y))
+
+
+    direction = STOP
+    speed = 1
 
     root = tk.Tk()
     # For bind() details, see: http://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
