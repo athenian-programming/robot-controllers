@@ -3,6 +3,7 @@
 import argparse
 import json
 import logging
+import time
 from threading import Thread
 
 from common_constants import LOGGING_ARGS
@@ -29,21 +30,49 @@ if __name__ == "__main__":
 
     # Setup MQTT
     def on_connect(client, userdata, flags, rc):
-        print("Connected with result code: {0}".format(rc))
+        logging.info("Connected with result code: {0}".format(rc))
         Thread(target=publish_locations, args=(client, userdata)).start()
 
 
     def on_disconnect(client, userdata, rc):
-        print("Disconnected with result code: {0}".format(rc))
+        logging.info("Disconnected with result code: {0}".format(rc))
 
 
     def on_publish(client, userdata, mid):
-        print("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
+        logging.info("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
 
 
     def publish_locations(client, userdata):
         while True:
             x_loc, y_loc = locations.get_xy()
+            if x_loc is None or y_loc is None:
+                logging.error("Received an invalid xy value")
+                time.sleep(1)
+                continue
+            x, width, increment = x_loc[:3]
+            y, height = y_loc[:2]
+            width_mid = width / 2
+            height_mid = height / 2
+            y_dist = y - height_mid
+            x_dist = x - width_mid
+            direction = None
+            speed = 0
+            if abs(y_dist) > increment:
+                speed = int((float(y_dist) / height_mid) * 10)
+                if (y > height_mid):
+                    direction = "BACKWARD"
+                else:
+                    direction = "FORWARD"
+
+            # if abs(x_dist) > increment:
+            #    if (x > width_mid):
+            #        direction="LEFT"
+            #    else:
+            #        direction="RIGHT"
+
+
+            if direction is None:
+                continue
 
             # Encode payload into json object
             json_val = json.dumps({DIRECTION: direction, SPEED: speed})

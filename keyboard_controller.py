@@ -28,15 +28,15 @@ if __name__ == "__main__":
 
     # Setup MQTT
     def on_connect(client, userdata, flags, rc):
-        print("Connected with result code: {0}".format(rc))
+        logging.info("Connected with result code: {0}".format(rc))
 
 
     def on_disconnect(client, userdata, rc):
-        print("Disconnected with result code: {0}".format(rc))
+        logging.info("Disconnected with result code: {0}".format(rc))
 
 
     def on_publish(client, userdata, mid):
-        print("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
+        logging.info("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
 
 
     # Create MQTT connection

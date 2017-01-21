@@ -6,6 +6,7 @@ import logging
 
 from common_constants import LOGGING_ARGS
 from common_utils import mqtt_broker_info
+from common_utils import sleep
 from mqtt_connection import MqttConnection
 
 
@@ -17,11 +18,11 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_disconnect(client, userdata, rc):
-    print("Disconnected with result code: {0}".format(rc))
+    logging.info("Disconnected with result code: {0}".format(rc))
 
 
 def on_subscribe(client, userdata, mid, granted_qos):
-    print("Subscribed with message id: {0} QOS: {1}".format(mid, granted_qos))
+    logging.info("Subscribed with message id: {0} QOS: {1}".format(mid, granted_qos))
 
 
 def on_message(client, userdata, msg):
@@ -46,6 +47,10 @@ if __name__ == "__main__":
     mqtt_conn.client.on_subscribe = on_subscribe
     mqtt_conn.client.on_message = on_message
     mqtt_conn.connect()
-    mqtt_conn.wait()
+
+    try:
+        sleep()
+    except KeyboardInterrupt:
+        pass
 
     print("Exiting...")
