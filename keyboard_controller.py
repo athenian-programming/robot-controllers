@@ -27,6 +27,7 @@ if __name__ == "__main__":
     # Setup logging
     logging.basicConfig(stream=sys.stderr, level=logging.INFO, format=FORMAT_DEFAULT)
 
+
     # Setup MQTT
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code: {0}".format(rc))
@@ -67,6 +68,7 @@ if __name__ == "__main__":
         direction = cmd
         publish_value()
 
+
     def on_key(event):
         global direction
         global speed
@@ -89,6 +91,7 @@ if __name__ == "__main__":
         else:
             print("Pressed {0}".format(key_clicked))
 
+
     def on_mouseclick(event):
         root.focus_set()
         print("Clicked at {0},{1}".format(event.x, event.y))
@@ -99,6 +102,7 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     root.title("Keyboard Controller")
+    root.focus()
     # For bind() details, see: http://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
     # root.bind("<Button-1>", on_mouseclick)
     root.bind("<Key>", on_key)
@@ -108,12 +112,14 @@ if __name__ == "__main__":
     root.bind("<Down>", lambda event: set_direction("BACKWARD"))
 
     canvas = tk.Canvas(root, bg="white", width=200, height=150)
-    labels = {}
-    labels["direction"] = tk.Label(canvas, text='', bg='red', font=('courier', 20, 'bold'), height=2, width=20)
-    labels["direction"].pack(expand=tk.YES, fill=tk.BOTH)
-    labels["speed"] = tk.Label(canvas, text='', bg='red', font=('courier', 20, 'bold'), height=2, width=20)
-    labels["speed"].pack(expand=tk.YES, fill=tk.BOTH)
     canvas.pack()
+
+    labels = {}
+    args = {"text": "", "bg": "red", "height": 2, "width": 20, "font": ('courier', 20, 'bold')}
+    labels["direction"] = tk.Label(canvas, args)
+    labels["direction"].pack(expand=tk.YES, fill=tk.BOTH)
+    labels["speed"] = tk.Label(canvas, args)
+    labels["speed"].pack(expand=tk.YES, fill=tk.BOTH)
 
     update_display(direction, speed)
 
