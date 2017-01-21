@@ -1,13 +1,15 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 
 import argparse
+import json
 import logging
+from threading import Thread
 
+from common_constants import LOGGING_ARGS
+from common_utils import mqtt_broker_info
+from constants import *
 from location_client import LocationClient
 from mqtt_connection import MqttConnection
-from utils import LOGGING_ARGS
-from utils import TOPIC
-from utils import mqtt_broker_info
 
 if __name__ == "__main__":
     # Parse CLI args
@@ -27,6 +29,7 @@ if __name__ == "__main__":
     # Setup MQTT
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code: {0}".format(rc))
+        Thread(target=publish_locations, args=(client, userdata)).start()
 
 
     def on_disconnect(client, userdata, rc):
@@ -34,7 +37,16 @@ if __name__ == "__main__":
 
 
     def on_publish(client, userdata, mid):
-        print("Published value to {0} with message id {1}".format(TOPIC, mid))
+        print("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
+
+
+    def publish_locations(client, userdata):
+        while True:
+            x_loc, y_loc = locations.get_xy()
+
+            # Encode payload into json object
+            json_val = json.dumps({DIRECTION: direction, SPEED: speed})
+            result, mid = mqtt_conn.client.publish(COMMAND_TOPIC, payload=json_val.encode('utf-8'))
 
 
     # Create MQTT connection

@@ -1,5 +1,8 @@
 # Robot Controllers
 
+This package requires ../common_robotics_python and ../opencv_object_tracking to 
+be added to the PYTHONPATH. 
+
 ## Keyboard Controller
 
 keyboard_controller.py is used to drive a robot via keystrokes. 
@@ -30,6 +33,20 @@ $ ./keyboard_controller.py
 | -           | Decrease speed 1 unit                              |
 | space       | Sets speed to 0                                    |
 | q           | Quit                                               |
+
+## Camera Controller
+
+camera_controller.py requires python2 because of OpenCV.
+
+### CLI Options
+
+| Option         | Description                                        | Default |
+|:---------------|----------------------------------------------------|---------|
+| -m, --mqtt     | MQTT broker hostname                               |         |
+| -h, --help     | Summary of options                                 |         |
+
+
+
 
 ## Broker Listener
 

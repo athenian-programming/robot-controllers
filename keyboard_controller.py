@@ -5,18 +5,16 @@ import json
 import logging
 import sys
 
+from common_constants import LOGGING_ARGS
+from common_utils import is_python3
+from common_utils import mqtt_broker_info
+from constants import *
 from mqtt_connection import MqttConnection
-from utils import LOGGING_ARGS
-from utils import is_python3
-from utils import mqtt_broker_info
 
 if is_python3():
     import tkinter as tk
 else:
     import Tkinter as tk
-
-TOPIC = "/roborio/keyboard/command"
-STOP = "STOP"
 
 if __name__ == "__main__":
     # Parse CLI args
@@ -38,7 +36,7 @@ if __name__ == "__main__":
 
 
     def on_publish(client, userdata, mid):
-        print("Published value to {0} with message id {1}".format(TOPIC, mid))
+        print("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
 
 
     # Create MQTT connection
@@ -50,8 +48,8 @@ if __name__ == "__main__":
 
 
     def update_display(direction, speed):
-        labels["direction"]["text"] = "Direction: {0}".format(direction)
-        labels["speed"]["text"] = "Speed: {0}".format(speed)
+        labels[DIRECTION]["text"] = "Direction: {0}".format(direction)
+        labels[SPEED]["text"] = "Speed: {0}".format(speed)
 
 
     def publish_value():
@@ -59,8 +57,8 @@ if __name__ == "__main__":
         global speed
         update_display(direction, speed)
         # Encode payload into json object
-        json_val = json.dumps({"command": direction, "speed": speed})
-        result, mid = mqtt_conn.client.publish(TOPIC, payload=json_val.encode('utf-8'))
+        json_val = json.dumps({DIRECTION: direction, SPEED: speed})
+        result, mid = mqtt_conn.client.publish(COMMAND_TOPIC, payload=json_val.encode('utf-8'))
 
 
     def set_direction(cmd):
@@ -116,10 +114,10 @@ if __name__ == "__main__":
 
     labels = {}
     args = {"text": "", "bg": "red", "height": 2, "width": 20, "font": ('courier', 20, 'bold')}
-    labels["direction"] = tk.Label(canvas, args)
-    labels["direction"].pack(expand=tk.YES, fill=tk.BOTH)
-    labels["speed"] = tk.Label(canvas, args)
-    labels["speed"].pack(expand=tk.YES, fill=tk.BOTH)
+    labels[DIRECTION] = tk.Label(canvas, args)
+    labels[DIRECTION].pack(expand=tk.YES, fill=tk.BOTH)
+    labels[SPEED] = tk.Label(canvas, args)
+    labels[SPEED].pack(expand=tk.YES, fill=tk.BOTH)
 
     update_display(direction, speed)
 

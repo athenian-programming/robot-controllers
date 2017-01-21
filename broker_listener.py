@@ -5,9 +5,9 @@ import json
 import logging
 import time
 
+from common_constants import LOGGING_ARGS
+from common_utils import mqtt_broker_info
 from mqtt_connection import MqttConnection
-from utils import LOGGING_ARGS
-from utils import mqtt_broker_info
 
 
 def on_connect(client, userdata, flags, rc):
