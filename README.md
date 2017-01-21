@@ -42,6 +42,7 @@ camera_controller.py requires python2 because of OpenCV.
 
 | Option         | Description                                        | Default |
 |:---------------|----------------------------------------------------|---------|
+| -g, --grpc     | gRPC server hostname                               |         |
 | -m, --mqtt     | MQTT broker hostname                               |         |
 | -h, --help     | Summary of options                                 |         |
 

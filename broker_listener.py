@@ -3,7 +3,6 @@
 import argparse
 import json
 import logging
-import time
 
 from common_constants import LOGGING_ARGS
 from common_utils import mqtt_broker_info
@@ -47,7 +46,6 @@ if __name__ == "__main__":
     mqtt_conn.client.on_subscribe = on_subscribe
     mqtt_conn.client.on_message = on_message
     mqtt_conn.connect()
-
-    time.sleep(1000)
+    mqtt_conn.wait()
 
     print("Exiting...")

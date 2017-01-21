@@ -3,6 +3,7 @@
 import argparse
 import json
 import logging
+import time
 from threading import Thread
 
 from common_constants import LOGGING_ARGS
@@ -55,3 +56,5 @@ if __name__ == "__main__":
     mqtt_conn.client.on_disconnect = on_disconnect
     mqtt_conn.client.on_publish = on_publish
     mqtt_conn.connect()
+
+    while True: time.sleep(60)
