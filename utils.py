@@ -1,10 +1,12 @@
+import logging
 import platform
 import sys
 
 TOPIC = "topic"
 
-FORMAT_DEFAULT = "%(asctime)s %(name)-10s %(funcName)-10s():%(lineno)i: %(levelname)-6s %(message)s"
-
+LOGGING_ARGS = {"stream": sys.stderr,
+                "level": logging.INFO,
+                "format": "%(asctime)s %(name)-10s %(funcName)-10s():%(lineno)i: %(levelname)-6s %(message)s"}
 
 def mqtt_broker_info(val):
     # Broker hostname can be either "localhost" or "localhost:999"

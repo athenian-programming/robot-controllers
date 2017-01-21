@@ -6,7 +6,7 @@ import logging
 import sys
 
 from mqtt_connection import MqttConnection
-from utils import FORMAT_DEFAULT
+from utils import LOGGING_ARGS
 from utils import is_python3
 from utils import mqtt_broker_info
 
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())
 
     # Setup logging
-    logging.basicConfig(stream=sys.stderr, level=logging.INFO, format=FORMAT_DEFAULT)
+    logging.basicConfig(**LOGGING_ARGS)
 
 
     # Setup MQTT
