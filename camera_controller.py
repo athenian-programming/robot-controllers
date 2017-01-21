@@ -3,11 +3,11 @@
 import argparse
 import logging
 
+from location_client import LocationClient
 from mqtt_connection import MqttConnection
-from ..common_robotics_python.utils import LOGGING_ARGS
-from ..common_robotics_python.utils import TOPIC
-from ..common_robotics_python.utils import mqtt_broker_info
-from ..opencv_object_tracking.location_client import LocationClient
+from utils import LOGGING_ARGS
+from utils import TOPIC
+from utils import mqtt_broker_info
 
 if __name__ == "__main__":
     # Parse CLI args

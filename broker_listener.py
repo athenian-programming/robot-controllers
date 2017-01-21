@@ -6,8 +6,8 @@ import logging
 import time
 
 from mqtt_connection import MqttConnection
-from ..common_robotics_python.utils import LOGGING_ARGS
-from ..common_robotics_python.utils import mqtt_broker_info
+from utils import LOGGING_ARGS
+from utils import mqtt_broker_info
 
 
 def on_connect(client, userdata, flags, rc):

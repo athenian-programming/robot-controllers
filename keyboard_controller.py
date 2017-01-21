@@ -6,9 +6,9 @@ import logging
 import sys
 
 from mqtt_connection import MqttConnection
-from ..common_robotics_python.utils import LOGGING_ARGS
-from ..common_robotics_python.utils import is_python3
-from ..common_robotics_python.utils import mqtt_broker_info
+from utils import LOGGING_ARGS
+from utils import is_python3
+from utils import mqtt_broker_info
 
 if is_python3():
     import tkinter as tk
