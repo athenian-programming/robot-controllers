@@ -3,12 +3,11 @@
 import argparse
 import json
 import logging
-import sys
 import time
 
 from mqtt_connection import MqttConnection
-from utils import FORMAT_DEFAULT
-from utils import mqtt_broker_info
+from ..common_robotics_python.utils import LOGGING_ARGS
+from ..common_robotics_python.utils import mqtt_broker_info
 
 
 def on_connect(client, userdata, flags, rc):
@@ -39,7 +38,7 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())
 
     # Setup logging
-    logging.basicConfig(stream=sys.stderr, level=logging.INFO, format=FORMAT_DEFAULT)
+    logging.basicConfig(**LOGGING_ARGS)
 
     # Create MQTT connection
     mqtt_conn = MqttConnection(*mqtt_broker_info(args["mqtt"]))
