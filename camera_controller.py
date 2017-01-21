@@ -3,11 +3,11 @@
 import argparse
 import json
 import logging
-import time
 from threading import Thread
 
 from common_constants import LOGGING_ARGS
 from common_utils import mqtt_broker_info
+from common_utils import sleep
 from constants import *
 from location_client import LocationClient
 from mqtt_connection import MqttConnection
@@ -57,4 +57,11 @@ if __name__ == "__main__":
     mqtt_conn.client.on_publish = on_publish
     mqtt_conn.connect()
 
-    while True: time.sleep(60)
+    try:
+        sleep()
+    except KeyboardInterrupt:
+        mqtt_conn.disconnect()
+    finally:
+        locations.stop()
+
+    print("Exiting...")
