@@ -49,8 +49,8 @@ if __name__ == "__main__":
 
 
     def update_display(direction, speed):
-        direction_label["text"] = "Direction: {0}".format(direction)
-        speed_label["text"] = "Speed: {0}".format(speed)
+        labels["direction"]["text"] = "Direction: {0}".format(direction)
+        labels["speed"]["text"] = "Speed: {0}".format(speed)
 
 
     def publish_value():
@@ -98,19 +98,21 @@ if __name__ == "__main__":
     speed = 1
 
     root = tk.Tk()
+    root.title("Keyboard Controller")
     # For bind() details, see: http://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
     # root.bind("<Button-1>", on_mouseclick)
     root.bind("<Key>", on_key)
-    root.bind('<Left>', lambda event: set_direction("LEFT"))
-    root.bind('<Right>', lambda event: set_direction("RIGHT"))
-    root.bind('<Up>', lambda event: set_direction("FORWARD"))
-    root.bind('<Down>', lambda event: set_direction("BACKWARD"))
+    root.bind("<Left>", lambda event: set_direction("LEFT"))
+    root.bind("<Right>", lambda event: set_direction("RIGHT"))
+    root.bind("<Up>", lambda event: set_direction("FORWARD"))
+    root.bind("<Down>", lambda event: set_direction("BACKWARD"))
 
     canvas = tk.Canvas(root, bg="white", width=200, height=150)
-    direction_label = tk.Label(canvas, text='', bg='red', font=('courier', 20, 'bold'), height=2, width=20)
-    direction_label.pack(expand=tk.YES, fill=tk.BOTH)
-    speed_label = tk.Label(canvas, text='', bg='red', font=('courier', 20, 'bold'), height=2, width=20)
-    speed_label.pack(expand=tk.YES, fill=tk.BOTH)
+    labels = {}
+    labels["direction"] = tk.Label(canvas, text='', bg='red', font=('courier', 20, 'bold'), height=2, width=20)
+    labels["direction"].pack(expand=tk.YES, fill=tk.BOTH)
+    labels["speed"] = tk.Label(canvas, text='', bg='red', font=('courier', 20, 'bold'), height=2, width=20)
+    labels["speed"].pack(expand=tk.YES, fill=tk.BOTH)
     canvas.pack()
 
     update_display(direction, speed)
