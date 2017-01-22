@@ -27,7 +27,6 @@ if __name__ == "__main__":
     locations = LocationClient(args["grpc"])
     locations.start()
 
-
     # Setup MQTT
     def on_connect(client, userdata, flags, rc):
         logging.info("Connected with result code: {0}".format(rc))
@@ -59,7 +58,7 @@ if __name__ == "__main__":
             speed = 0
             if abs(y_dist) > increment:
                 speed = int((float(y_dist) / height_mid) * 10)
-                if (y > height_mid):
+                if y > height_mid:
                     direction = "BACKWARD"
                 else:
                     direction = "FORWARD"
@@ -70,14 +69,12 @@ if __name__ == "__main__":
             #    else:
             #        direction="RIGHT"
 
-
             if direction is None:
                 continue
 
             # Encode payload into json object
             json_val = json.dumps({DIRECTION: direction, SPEED: speed})
             result, mid = mqtt_conn.client.publish(COMMAND_TOPIC, payload=json_val.encode('utf-8'))
-
 
     # Create MQTT connection
     mqtt_conn = MqttConnection(*mqtt_broker_info(args["mqtt"]))

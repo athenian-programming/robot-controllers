@@ -53,8 +53,7 @@ if __name__ == "__main__":
 
 
     def publish_value():
-        global direction
-        global speed
+        global direction, speed
         update_display(direction, speed)
         # Encode payload into json object
         json_val = json.dumps({DIRECTION: direction, SPEED: speed})
@@ -68,8 +67,7 @@ if __name__ == "__main__":
 
 
     def on_key(event):
-        global direction
-        global speed
+        global direction, speed
         key_clicked = eval(repr(event.char))
         if key_clicked == "+" or key_clicked == "=":
             if speed < 10:
