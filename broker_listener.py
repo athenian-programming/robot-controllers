@@ -9,11 +9,14 @@ from common_utils import mqtt_broker_info
 from common_utils import sleep
 from mqtt_connection import MqttConnection
 
+HOSTNAME = "hostname"
+PORT = "port"
+
 
 def on_connect(client, userdata, flags, rc):
     logging.info("{0} connecting to {1}:{2}".format("Success" if rc == 0 else "Failure",
-                                                    userdata["hostname"],
-                                                    userdata["port"]))
+                                                    userdata[HOSTNAME],
+                                                    userdata[PORT]))
     client.subscribe("/#")
 
 
@@ -41,7 +44,8 @@ if __name__ == "__main__":
     logging.basicConfig(**LOGGING_ARGS)
 
     # Create MQTT connection
-    mqtt_conn = MqttConnection(*mqtt_broker_info(args["mqtt"]))
+    hostname, port = mqtt_broker_info(args["mqtt"])
+    mqtt_conn = MqttConnection(hostname, port, userdata={HOSTNAME: hostname, PORT: port})
     mqtt_conn.client.on_connect = on_connect
     mqtt_conn.client.on_disconnect = on_disconnect
     mqtt_conn.client.on_subscribe = on_subscribe
