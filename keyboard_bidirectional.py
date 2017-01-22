@@ -159,10 +159,10 @@ if __name__ == "__main__":
     # For bind() details, see: http://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
     # root.bind("<Button-1>", on_mouseclick)
     root.bind("<Key>", on_key)
-    root.bind("<Left>", lambda event: set_direction("LEFT"))
-    root.bind("<Right>", lambda event: set_direction("RIGHT"))
-    root.bind("<Up>", lambda event: set_direction("FORWARD"))
-    root.bind("<Down>", lambda event: set_direction("BACKWARD"))
+    root.bind("<Left>", lambda event: set_direction(LEFT))
+    root.bind("<Right>", lambda event: set_direction(RIGHT))
+    root.bind("<Up>", lambda event: set_direction(FORWARD))
+    root.bind("<Down>", lambda event: set_direction(BACKWARD))
 
     canvas = tk.Canvas(root, bg="white", width=200, height=150)
     canvas.pack()

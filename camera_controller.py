@@ -53,22 +53,19 @@ if __name__ == "__main__":
             y, height = y_loc[:2]
             width_mid = width / 2
             height_mid = height / 2
-            y_dist = y - height_mid
-            x_dist = x - width_mid
+            y_dist = height_mid - y
+            x_dist = width_mid - x
             direction = None
             speed = 0
             if abs(y_dist) > increment:
                 speed = int((float(y_dist) / height_mid) * 10)
                 if y > height_mid:
-                    direction = "BACKWARD"
+                    direction = BACKWARD
                 else:
-                    direction = "FORWARD"
-
-            # if abs(x_dist) > increment:
-            #    if (x > width_mid):
-            #        direction="LEFT"
-            #    else:
-            #        direction="RIGHT"
+                    direction = FORWARD
+            else:
+                speed = 0
+                direction = STOP
 
             if direction is None:
                 continue
