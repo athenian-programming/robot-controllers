@@ -3,6 +3,7 @@
 import argparse
 import json
 import logging
+from logging import info
 
 from common_constants import LOGGING_ARGS
 from common_utils import mqtt_broker_info
@@ -14,18 +15,16 @@ PORT = "port"
 
 
 def on_connect(client, userdata, flags, rc):
-    logging.info("{0} connecting to {1}:{2}".format("Success" if rc == 0 else "Failure",
-                                                    userdata[HOSTNAME],
-                                                    userdata[PORT]))
-    client.subscribe("/#")
+    info("{0} connecting to {1}:{2}".format("Success" if rc == 0 else "Failure", userdata[HOSTNAME], userdata[PORT]))
+    client.subscribe("#")
 
 
 def on_disconnect(client, userdata, rc):
-    logging.info("Disconnected with result code: {0}".format(rc))
+    info("Disconnected with result code: {0}".format(rc))
 
 
 def on_subscribe(client, userdata, mid, granted_qos):
-    logging.info("Subscribed with message id: {0} QOS: {1}".format(mid, granted_qos))
+    info("Subscribed with message id: {0} QOS: {1}".format(mid, granted_qos))
 
 
 def on_message(client, userdata, msg):
