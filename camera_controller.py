@@ -4,6 +4,7 @@ import argparse
 import json
 import logging
 import time
+from logging import info
 from threading import Thread
 
 from common_constants import LOGGING_ARGS
@@ -29,16 +30,16 @@ if __name__ == "__main__":
 
     # Setup MQTT
     def on_connect(client, userdata, flags, rc):
-        logging.info("Connected with result code: {0}".format(rc))
+        info("Connected with result code: {0}".format(rc))
         Thread(target=publish_locations, args=(client, userdata)).start()
 
 
     def on_disconnect(client, userdata, rc):
-        logging.info("Disconnected with result code: {0}".format(rc))
+        info("Disconnected with result code: {0}".format(rc))
 
 
     def on_publish(client, userdata, mid):
-        logging.info("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
+        info("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
 
 
     def publish_locations(client, userdata):
