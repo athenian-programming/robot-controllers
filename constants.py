@@ -1,4 +1,5 @@
 COMMAND_TOPIC = "roborio/keyboard/command"
+SOMETHING_ELSE = ""
 STOP = "STOP"
 DIRECTION = "direction"
 SPEED = "speed"
