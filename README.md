@@ -7,9 +7,22 @@ Preferences-->Project:robot-controllers-->Project Structure.
 Then click on `+Add Content Root` 
 and add *../common-robotics* and *../color-tracking*.
 
-### Requirements
 
-Install the MQTT client as described [here](http://www.athenian-robotics.org/mqtt-client/)
+## Package Dependencies
+
+Install the following Python packages: 
+
+* [gRPC](http://www.grpc.io/docs/guides/index.html) 
+as described [here](http://www.athenian-robotics.org/grpc/)
+
+* [OpenCV](http://opencv.org) 
+as described [here](http://www.athenian-robotics.org/opencv/)
+
+* [imutils](https://github.com/jrosebr1/imutils)
+as described [here](http://www.athenian-robotics.org/imutils/)
+
+* [MQTT](http://mqtt.org) client 
+as describer [here](http://www.athenian-robotics.org/mqtt-client/)
 
 ## Keyboard Controller
 
