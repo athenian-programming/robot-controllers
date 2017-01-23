@@ -29,8 +29,12 @@ def on_subscribe(client, userdata, mid, granted_qos):
 
 def on_message(client, userdata, msg):
     # Decode json object payload
-    json_val = json.loads(bytes.decode(msg.payload))
-    info("{0} : {1}".format(msg.topic, json_val))
+    try:
+        json_val = json.loads(bytes.decode(msg.payload))
+        info("{0} : {1}".format(msg.topic, json_val))
+    except BaseException as e:
+        info("{0} : {1}".format(msg.topic, msg.payload))
+
 
 
 if __name__ == "__main__":

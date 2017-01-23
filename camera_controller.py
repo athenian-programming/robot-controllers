@@ -58,7 +58,7 @@ if __name__ == "__main__":
             direction = None
             speed = 0
             if abs(y_dist) > increment:
-                speed = int((float(y_dist) / height_mid) * 10)
+                speed = abs(int((float(y_dist) / height_mid) * 10))
                 if y > height_mid:
                     direction = BACKWARD
                 else:
