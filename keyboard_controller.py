@@ -27,7 +27,7 @@ if __name__ == "__main__":
     logging.basicConfig(**LOGGING_ARGS)
 
 
-    # Setup MQTT
+    # Define MQTT callbacks
     def on_connect(client, userdata, flags, rc):
         info("Connected with result code: {0}".format(rc))
 
@@ -48,6 +48,7 @@ if __name__ == "__main__":
     mqtt_conn.connect()
 
 
+    # Define TK callbacks
     def update_display(direction, speed):
         labels[DIRECTION]["text"] = "Direction: {0}".format(direction)
         labels[SPEED]["text"] = "Speed: {0}".format(speed)

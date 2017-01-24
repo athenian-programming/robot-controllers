@@ -13,30 +13,6 @@ from mqtt_connection import MqttConnection
 HOSTNAME = "hostname"
 PORT = "port"
 
-
-def on_connect(client, userdata, flags, rc):
-    info("{0} connecting to {1}:{2}".format("Success" if rc == 0 else "Failure", userdata[HOSTNAME], userdata[PORT]))
-    client.subscribe("#")
-
-
-def on_disconnect(client, userdata, rc):
-    info("Disconnected with result code: {0}".format(rc))
-
-
-def on_subscribe(client, userdata, mid, granted_qos):
-    info("Subscribed with message id: {0} QOS: {1}".format(mid, granted_qos))
-
-
-def on_message(client, userdata, msg):
-    # Decode json object payload
-    try:
-        json_val = json.loads(bytes.decode(msg.payload))
-        info("{0} : {1}".format(msg.topic, json_val))
-    except BaseException as e:
-        info("{0} : {1}".format(msg.topic, msg.payload))
-
-
-
 if __name__ == "__main__":
     # Parse CLI args
     parser = argparse.ArgumentParser()
@@ -45,6 +21,31 @@ if __name__ == "__main__":
 
     # Setup logging
     logging.basicConfig(**LOGGING_ARGS)
+
+
+    # Define MQTT callbacks
+    def on_connect(client, userdata, flags, rc):
+        info(
+            "{0} connecting to {1}:{2}".format("Success" if rc == 0 else "Failure", userdata[HOSTNAME], userdata[PORT]))
+        client.subscribe("#")
+
+
+    def on_disconnect(client, userdata, rc):
+        info("Disconnected with result code: {0}".format(rc))
+
+
+    def on_subscribe(client, userdata, mid, granted_qos):
+        info("Subscribed with message id: {0} QOS: {1}".format(mid, granted_qos))
+
+
+    def on_message(client, userdata, msg):
+        # Decode json object payload
+        try:
+            json_val = json.loads(bytes.decode(msg.payload))
+            info("{0} : {1}".format(msg.topic, json_val))
+        except BaseException as e:
+            info("{0} : {1}".format(msg.topic, msg.payload))
+
 
     # Create MQTT connection
     hostname, port = mqtt_broker_info(args["mqtt"])

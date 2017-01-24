@@ -7,4 +7,3 @@ FORWARD = "FORWARD"
 BACKWARD = "BACKWARD"
 LEFT = "LEFT"
 RIGHT = "RIGHT"
-# Jackson made this change

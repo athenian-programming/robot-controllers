@@ -15,10 +15,8 @@ if is_python3():
 else:
     import Tkinter as tk
 
-
 HOSTNAME = "hostname"
 PORT = "port"
-
 
 # Execute on run
 
@@ -89,6 +87,7 @@ if __name__ == "__main__":
     mqtt_sub.client.on_subscribe = on_subscriber_subscribe
     mqtt_sub.client.on_message = on_subscriber_message
     mqtt_sub.connect()
+
 
     # Set up interface callbacks
 
