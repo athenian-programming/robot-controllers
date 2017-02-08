@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
-import argparse
 import json
 import logging
 import sys
 
-import cli_args  as cli
+import cli_args as cli
 from cli_args import setup_cli_args
-from utils import setup_logging
+from mqtt_connection import MqttConnection
 from utils import is_python3
 from utils import mqtt_broker_info
+from utils import setup_logging
+
 from constants import *
-from mqtt_connection import MqttConnection
 
 if is_python3():
     import tkinter as tk

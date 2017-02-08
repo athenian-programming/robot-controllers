@@ -5,7 +5,7 @@ import logging
 import time
 from threading import Thread
 
-import cli_args  as cli
+import cli_args as cli
 from cli_args import setup_cli_args
 from location_client import LocationClient
 from mqtt_connection import MqttConnection

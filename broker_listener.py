@@ -3,7 +3,7 @@
 import json
 import logging
 
-import cli_args  as cli
+import cli_args as cli
 from cli_args import setup_cli_args
 from mqtt_connection import MqttConnection
 from utils import mqtt_broker_info
