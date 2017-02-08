@@ -1,55 +1,55 @@
 #!/usr/bin/env python3
 
-import argparse
 import json
 import logging
 import sys
 
-from common_constants import LOGGING_ARGS
-from common_utils import is_python3, mqtt_broker_info
-from constants import *
+import cli_args  as cli
+from cli_args import setup_cli_args
 from mqtt_connection import MqttConnection
+from utils import is_python3, mqtt_broker_info
+from utils import setup_logging
+
+from constants import *
 
 if is_python3():
     import tkinter as tk
 else:
     import Tkinter as tk
 
+logger = logging.getLogger(__name__)
+
 HOSTNAME = "hostname"
 PORT = "port"
 
-# Execute on run
-
 if __name__ == "__main__":
     # Publisher callbacks
-
     def on_publisher_connect(client, userdata, flags, rc):
-        logging.info("[Publisher] Connected with result code: {0}".format(rc))
+        logger.info("[Publisher] Connected with result code: {0}".format(rc))
 
 
     def on_publisher_disconnect(client, userdata, rc):
-        logging.info("[Publisher] Disconnected with result code: {0}".format(rc))
+        logger.info("[Publisher] Disconnected with result code: {0}".format(rc))
 
 
     def on_publisher_publish(client, userdata, mid):
-        logging.info("[Publisher] Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
+        logger.info("[Publisher] Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
 
 
     # Subscriber callbacks
-
     def on_subscriber_connect(client, userdata, flags, rc):
-        logging.info("[Subscriber] {0} connecting to {1}:{2}".format("Success" if rc == 0 else "Failure",
+        logger.info("[Subscriber] {0} connecting to {1}:{2}".format("Success" if rc == 0 else "Failure",
                                                                      userdata[HOSTNAME],
                                                                      userdata[PORT]))
         client.subscribe(CONFIRM_TOPIC)
 
 
     def on_subscriber_disconnect(client, userdata, rc):
-        logging.info("[Subscriber] Disconnected with result code: {0}".format(rc))
+        logger.info("[Subscriber] Disconnected with result code: {0}".format(rc))
 
 
     def on_subscriber_subscribe(client, userdata, mid, granted_qos):
-        logging.info("[Subscriber] Subscribed with message id: {0} QOS: {1}".format(mid, granted_qos))
+        logger.info("[Subscriber] Subscribed with message id: {0} QOS: {1}".format(mid, granted_qos))
 
 
     def on_subscriber_message(client, userdata, msg):
@@ -63,17 +63,12 @@ if __name__ == "__main__":
 
 
     # Parse CLI args
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--mqtt", required=True, help="MQTT broker hostname")
-    args = vars(parser.parse_args())
+    args = setup_cli_args(cli.mqtt_host, cli.verbose)
 
     # Setup logging
-
-    logging.basicConfig(**LOGGING_ARGS)
+    setup_logging(level=args["loglevel"])
 
     # Instantiate publisher and subscriber, start connecting asynchronously
-
     mqtt_pub = MqttConnection(*mqtt_broker_info(args["mqtt"]))
     mqtt_pub.client.on_connect = on_publisher_connect
     mqtt_pub.client.on_disconnect = on_publisher_disconnect
@@ -90,7 +85,6 @@ if __name__ == "__main__":
 
 
     # Set up interface callbacks
-
     def update_display():
         global pub_direction, pub_speed, sub_direction, sub_speed
         labels[DIRECTION]["text"] = "Direction: {0}".format(pub_direction)

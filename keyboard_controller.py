@@ -4,11 +4,12 @@ import argparse
 import json
 import logging
 import sys
-from logging import info
 
-from common_constants import LOGGING_ARGS
-from common_utils import is_python3
-from common_utils import mqtt_broker_info
+import cli_args  as cli
+from cli_args import setup_cli_args
+from utils import setup_logging
+from utils import is_python3
+from utils import mqtt_broker_info
 from constants import *
 from mqtt_connection import MqttConnection
 
@@ -17,31 +18,31 @@ if is_python3():
 else:
     import Tkinter as tk
 
+logger = logging.getLogger(__name__)
+
 if __name__ == "__main__":
     # Parse CLI args
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--mqtt", required=True, help="MQTT broker hostname")
-    args = vars(parser.parse_args())
+    args = setup_cli_args(cli.mqtt_host, cli.verbose)
 
     # Setup logging
-    logging.basicConfig(**LOGGING_ARGS)
+    setup_logging(level=args["loglevel"])
 
 
     # Define MQTT callbacks
     def on_connect(client, userdata, flags, rc):
-        info("Connected with result code: {0}".format(rc))
+        logger.info("Connected with result code: {0}".format(rc))
 
 
     def on_disconnect(client, userdata, rc):
-        info("Disconnected with result code: {0}".format(rc))
+        logger.info("Disconnected with result code: {0}".format(rc))
 
 
     def on_publish(client, userdata, mid):
-        info("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
+        logger.info("Published value to {0} with message id {1}".format(COMMAND_TOPIC, mid))
 
 
     # Create MQTT connection
-    mqtt_conn = MqttConnection(*mqtt_broker_info(args["mqtt"]))
+    mqtt_conn = MqttConnection(*mqtt_broker_info(args["mqtt_host"]))
     mqtt_conn.client.on_connect = on_connect
     mqtt_conn.client.on_disconnect = on_disconnect
     mqtt_conn.client.on_publish = on_publish
