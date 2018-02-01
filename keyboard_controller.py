@@ -4,12 +4,12 @@ import json
 import logging
 import sys
 
-import cli_args as cli
-from cli_args import setup_cli_args
-from mqtt_connection import MqttConnection
-from utils import is_python3
-from utils import mqtt_broker_info
-from utils import setup_logging
+import arc852.cli_args as cli
+from arc852.cli_args import setup_cli_args
+from arc852.mqtt_connection import MqttConnection
+from arc852.utils import is_python3
+from arc852.utils import mqtt_broker_info
+from arc852.utils import setup_logging
 
 from constants import *
 
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     # Parse CLI args
-    args = setup_cli_args(cli.mqtt_host, cli.verbose)
+    args = setup_cli_args(cli.mqtt_host, cli.log_level())
 
     # Setup logging
     setup_logging(level=args["loglevel"])
